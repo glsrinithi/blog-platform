@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Hub - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-blog"></i>
+                <span>Blog Hub</span>
+            </div>
+            <div class="nav-controls">
+                <input type="text" id="searchInput" placeholder="🔍 Search blogs..." class="search-bar">
+                <button id="darkModeToggle" class="dark-mode-btn">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <a href="create.html" class="create-btn">
+                    <i class="fas fa-plus"></i> New Post
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="stats-bar">
+            <div class="stat">
+                <i class="fas fa-newspaper"></i>
+                <span id="totalPosts">0</span> Posts
+            </div>
+            <div class="stat">
+                <i class="fas fa-heart"></i>
+                <span id="totalLikes">0</span> Likes
+            </div>
+        </div>
+
+        <div class="posts-container" id="postsContainer">
+            <!-- Posts will be dynamically loaded here -->
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <i class="fas fa-feather-alt"></i>
+            <h2>No posts yet!</h2>
+            <p>Be the first to share your colorful thoughts</p>
+            <a href="create.html" class="create-btn empty-btn">Create First Post</a>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
