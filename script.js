@@ -1,10 +1,28 @@
 // Blog Platform JavaScript
 class BlogPlatform {
     constructor() {
-        this.posts = JSON.parse(localStorage.getItem('blogPosts')) || this.getSamplePosts();
-        this.currentEditId = null;
-        this.init();
-    }
+       this.posts = JSON.parse(localStorage.getItem('blogPosts')) || this.getSamplePosts();
+       this.currentEditId = null;
+       this.currentUser = JSON.parse(localStorage.getItem("currentUser")) || this.askUser();
+
+       this.init();
+   }
+
+   askUser() {
+       let name = prompt("Enter your username:");
+
+       if (!name) {
+           name = "Guest_" + Math.floor(Math.random() * 1000);
+      }
+
+       const user = {
+           id: "user_" + Date.now(),
+           name: name
+     };
+
+       localStorage.setItem("currentUser", JSON.stringify(user));
+       return user;
+   }
 
     parseMarkdown(content) {
        if (typeof marked !== "undefined") {
@@ -206,16 +224,28 @@ Pair with a cozy movie and you're set! What's your ultimate rainy day comfort fo
             </div>
             <div class="post-content">${marked.parse(post.content)}</div>
             <div class="post-actions">
-                <button class="btn btn-like ${post.liked ? 'liked' : ''}" data-action="like">
-                    <i class="fas ${post.liked ? 'fas fa-heart' : 'far fa-heart'}"></i>
-                    ${post.likes} Likes
-                </button>
-                <button class="btn btn-edit" data-action="edit">
-                    <i class="fas fa-edit"></i> Edit
-                </button>
-                <button class="btn btn-delete" data-action="delete">
-                    <i class="fas fa-trash"></i> Delete
-                </button>
+               <button class="btn btn-like ${post.liked ? 'liked' : ''}" data-action="like">
+               <i class="fas ${post.liked ? 'fas fa-heart' : 'far fa-heart'}"></i>
+               ${post.likes} Likes
+            </button>
+
+             <button class="btn btn-comment" data-action="comment">
+             💬 Comment
+            </button>
+
+            <button class="btn btn-share" data-action="share">
+             🔗 Share
+            </button>
+
+    ${post.authorId === this.currentUser.id ? `
+        <button class="btn btn-edit" data-action="edit">
+            <i class="fas fa-edit"></i> Edit
+        </button>
+        <button class="btn btn-delete" data-action="delete">
+            <i class="fas fa-trash"></i> Delete
+        </button>
+    ` : ''}
+</div>
             </div>
         `;
 
@@ -254,6 +284,14 @@ Pair with a cozy movie and you're set! What's your ultimate rainy day comfort fo
                 break;
             case 'delete':
                 this.deletePost(postId);
+                break;
+            case 'comment':
+                alert("💬 Comment feature coming soon!");
+                break;
+
+            case 'share':
+                navigator.clipboard.writeText(window.location.href);
+                alert("🔗 Link copied!");
                 break;
         }
     }
@@ -311,7 +349,8 @@ Pair with a cozy movie and you're set! What's your ultimate rainy day comfort fo
                 title,
                 category,
                 content,
-                author: randomUsername,
+                author: this.currentUser.name,
+                authorId: this.currentUser.id,
                 date: new Date().toISOString(),
                 likes: 0,
                 liked: false
