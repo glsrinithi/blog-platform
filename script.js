@@ -6,6 +6,16 @@ class BlogPlatform {
         this.init();
     }
 
+    parseMarkdown(content) {
+       if (typeof marked !== "undefined") {
+           return marked.parse(content);
+        } else {
+        // fallback if marked not loaded
+           return content
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/\*(.*?)\*/g, "<em>$1</em>");
+    }
+}
     // 5 Colorful Sample Posts with UNIQUE USERNAMES
     getSamplePosts() {
         return [
