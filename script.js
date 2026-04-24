@@ -194,7 +194,7 @@ Pair with a cozy movie and you're set! What's your ultimate rainy day comfort fo
                 <span>✍️ ${post.author}</span>
                 <span>📅 ${date}</span>
             </div>
-            <div class="post-content">${post.content}</div>
+            <div class="post-content">${marked.parse(post.content)}</div>
             <div class="post-actions">
                 <button class="btn btn-like ${post.liked ? 'liked' : ''}" data-action="like">
                     <i class="fas ${post.liked ? 'fas fa-heart' : 'far fa-heart'}"></i>
